@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2011 Dadastream. All rights reserved.
+  ~
+  ~ Redistribution and use in source and binary forms, with or without modification, are
+  ~ permitted provided that the following conditions are met:
+  ~
+  ~    1. Redistributions of source code must retain the above copyright notice, this list of
+  ~       conditions and the following disclaimer.
+  ~
+  ~    2. Redistributions in binary form must reproduce the above copyright notice, this list
+  ~       of conditions and the following disclaimer in the documentation and/or other materials
+  ~       provided with the distribution.
+  ~
+  ~ THIS SOFTWARE IS PROVIDED BY JACUM ''AS IS'' AND ANY EXPRESS OR IMPLIED
+  ~ WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+  ~ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL DADASTREAM OR
+  ~ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  ~ CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  ~ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+  ~ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+  ~ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+  ~ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  ~
+  ~ The views and conclusions contained in the software and documentation are those of the
+  ~ authors and should not be interpreted as representing official policies, either expressed
+  ~ or implied, of Dadastream.
+  ~
+  ~ @author Timur Evdokimov
+  -->
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5"
+         id="WebApp_ID">
+
+    <display-name>ICEFaces application</display-name>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+        <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+        <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>org.apache.myfaces.ERROR_HANDLING</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>org.apache.myfaces.ERROR_TEMPLATE_RESOURCE</param-name>
+        <param-value>error-page-template.xml</param-value>
+    </context-param>
+
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath:beans-webapp.xml
+        </param-value>
+    </context-param>
+
+
+    <context-param>
+        <param-name>com.icesoft.faces.concurrentDOMViews</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>com.icesoft.faces.synchronousUpdate</param-name>
+        <param-value>false</param-value>
+    </context-param>
+
+
+    <context-param>
+        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+        <param-value>.xhtml</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>com.sun.faces.defaultResourceMaxAge</param-name>
+        <param-value>604800000</param-value>
+    </context-param>
+
+
+    <context-param>
+        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+        <param-value>server</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>javax.faces.VALIDATE_EMPTY_FIELDS</param-name>
+        <param-value>false</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>org.icefaces.uniqueResourceURLs</param-name>
+        <param-value>false</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>com.icesoft.faces.uploadDirectory</param-name>
+        <param-value>upload</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>${javax.faces.project_stage}</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>org.icefaces.mandatoryResourceConfiguration</param-name>
+        <param-value>sliderEntry dateTimeEntry</param-value>
+    </context-param>
+
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>Resource Servlet</servlet-name>
+        <servlet-class>com.icesoft.faces.webapp.CompatResourceServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+
+    <servlet-mapping>
+        <servlet-name>Resource Servlet</servlet-name>
+        <url-pattern>/xmlhttp/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>/faces/*</url-pattern>
+    </servlet-mapping>
+
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>error.jsp</location>
+    </error-page>
+
+
+
+</web-app>

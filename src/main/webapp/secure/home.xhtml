@@ -1,0 +1,62 @@
+<ui:composition template="/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:ice="http://www.icesoft.com/icefaces/component">
+
+    <ui:define name="content">
+
+        <ice:form id='form_home'>
+
+            <ice:outputConnectionStatus id="connectStat"
+                                        style="float:right"
+                                        styleClass="navConnectionStatus"
+                                        showPopupOnDisconnect="true"/>
+
+            <ice:panelGroup>
+                <h:outputText value="#{msg['logged_in_as']}"/>
+                <strong>
+                    <h:outputText value="#{loginBean.username}"/>
+                </strong>
+                [<ice:commandLink id='link_logout' value="#{msg['logout']}" actionListener="#{logoutConfirmDialog.show}"/>]
+            </ice:panelGroup>
+
+            <ice:panelGroup>
+                <ice:commandButton id='hello_button' value="Hello?" actionListener="#{helloBean.hello}"/>
+                <ice:outputText id='message' value="#{helloBean.message}"/>
+            </ice:panelGroup>
+
+            <ice:panelPopup id="dialog_logout_confirm"
+                            draggable="false" modal="true"
+                            title="#{msg['confirm.logout.title']}"
+                            visible="#{logoutConfirmDialog.visible}"
+                            autoCentre="true">
+
+                <f:facet name="header">
+                    <ice:panelGroup styleClass="popupHeaderWrapper">
+                        <ice:outputText
+                                value="#{msg['confirm.logout.title']}"
+                                styleClass="popupHeaderText"/>
+                    </ice:panelGroup>
+                </f:facet>
+                <f:facet name="body">
+                    <ice:panelGroup styleClass="popupBody">
+                        <ice:outputText value="#{msg['confirm.logout.text']}"/>
+                        <br/>
+                        <ice:commandButton id="button_confirm" type="submit"
+                                           value="OK"
+                                           action="#{logoutConfirmDialog.confirm}"/>
+
+                        <ice:commandButton id="button_cancel" type="submit"
+                                           actionListener="#{logoutConfirmDialog.cancel}"
+                                           value="Cancel"/>
+                    </ice:panelGroup>
+                </f:facet>
+            </ice:panelPopup>
+
+        </ice:form>
+    </ui:define>
+</ui:composition>

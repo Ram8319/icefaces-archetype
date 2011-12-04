@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+
+    <appender name="ALL" class="org.apache.log4j.ConsoleAppender">
+        <param name="Threshold" value="INFO"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%d %-5p %1X{class} - %-30c{1} - %m%n"/>
+        </layout>
+    </appender>
+    <category name="com.jcraft.jsch.SSH">
+        <priority value="WARN"/>
+    </category>
+
+    <category name="org.mortbay">
+        <priority value="INFO"/>
+    </category>
+
+    <category name="org.springframework">
+        <priority value="WARN"/>
+    </category>
+
+    <category name="org.springframework.security">
+        <priority value="INFO"/>
+    </category>
+
+    <category name="org.apache.cxf">
+        <priority value="ALL"/>
+    </category>
+
+    <category name="net.karmafiles">
+        <priority value="TRACE"/>
+    </category>
+
+    <root>
+        <priority value="INFO"/>
+        <appender-ref ref="ALL"/>
+    </root>
+
+</log4j:configuration>
