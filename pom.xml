@@ -320,5 +320,14 @@
         </profile>
     </profiles>
 
+    <repositories>
+        <repository>
+            <id>icefaces</id>
+            <url>http://anonsvn.icefaces.org/repo/maven2/snapshots/</url>
+            <releases/>
+        </repository>
+
+
+    </repositories>
 
 </project>
