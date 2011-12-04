@@ -11,17 +11,9 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverBackedSelenium;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
-//import org.openqa.selenium.Capabilities;
-//import org.openqa.selenium.remote.DesiredCapabilities;
-//import org.openqa.selenium.remote.CommandExecutor;
-//import org.openqa.selenium.remote.RemoteWebDriver;
-//import org.openqa.selenium.SeleneseCommandExecutor;
 
 import java.net.MalformedURLException;
 import java.util.Set;
-//import java.net.URL;
-//import java.util.concurrent.TimeUnit;
 
 @RunWith(BlockJUnit4ClassRunner.class)
 public class SeleniumTest extends TestCase {
@@ -31,19 +23,6 @@ public class SeleniumTest extends TestCase {
 
     @Before
     public void createDriver() throws MalformedURLException {
-//        final DesiredCapabilities capabilities = DesiredCapabilities.firefox();
-//        capabilities.setJavascriptEnabled(true);
-//        driver = new RemoteWebDriver(new URL("http://127.0.0.1:4444/wd/hub"), capabilities);
-//        selenium = new WebDriverBackedSelenium(driver, "http://localhost:38080/");
-
-//        CommandExecutor executor = new SeleneseCommandExecutor(
-//                new URL("http://127.0.0.1:4444/wd/hub"),
-//                new URL("http://localhost:38080/faces/"),
-//                capabilities);
-//        driver = new RemoteWebDriver(executor, capabilities);
-//        selenium = new WebDriverBackedSelenium(driver, "http://localhost:38080/faces/");
-//        driver = new RemoteWebDriver(new URL("http://127.0.0.1:4444/wd/hub"), DesiredCapabilities.firefox());
-//        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         driver = new FirefoxDriver();
         selenium = new WebDriverBackedSelenium(driver, "http://localhost:8080/faces/");
 
@@ -56,8 +35,7 @@ public class SeleniumTest extends TestCase {
 
     @Test
     public void testNoTest() throws Exception {
-        // to check that selenium has been initialized properly
-//        Thread.sleep(60000);
+        // just to check that selenium has been initialized properly
     }
 
     @Test
@@ -188,19 +166,30 @@ public class SeleniumTest extends TestCase {
     }
 
 
-    private void waitForAjax() throws InterruptedException {
-        for (int second = 0; ; second++) {
-            if (second >= 600) fail("timeout");
-            try {
-                if ("visibility: visible;".equals(selenium.getAttribute("form_logout:connectStat:connection-idle@style")))
-                    break;
-            } catch (Exception e) {
+    /**
+     * This method uses connectStat widget to determine whether AJAX exchange has been completed and test may continue.
+     */
+    protected void waitForAjax() {
+        try {
+            for (int second = 0; ; second++) {
+                if (second >= 600) fail("timeout");
+                try {
+                    if ("visibility: visible;".equals(selenium.getAttribute("form_home:connectStat:connection-idle@style")))
+                        break;
+                } catch (Exception e) {
+                }
+                Thread.sleep(100);
             }
-            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            // nothing, just noise
         }
     }
 
-
+    /**
+     * For Selenium verifications
+     * @param s
+     * @param value
+     */
     private void verifyEquals(String s, String value) {
         assertEquals(s, value);
     }
